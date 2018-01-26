@@ -1,0 +1,39 @@
+library com.livecode.library.androidsecureid
+
+use com.livecode.foreign
+use com.livecode.java
+use com.livecode.engine
+
+metadata version is "0.0.1"
+metadata author is "Gurgen Hovhannisyan"
+metadata title is "Android Secure ID"
+
+__safe foreign handler _JNI_GetAndroidEngine() returns JObject \
+    binds to "java:com.runrev.android.Engine>getEngine()Lcom/runrev/android/Engine;!static"
+__safe foreign handler _JNI_GetEngineContext(in pEngine as JObject) returns JObject \
+    binds to "java:android.view.View>getContext()Landroid/content/Context;"
+__safe foreign handler _JNI_GetContentResolver(in pContext as JObject) returns JObject \
+    binds to "java:android.content.Context>getContentResolver()Landroid/content/ContentResolver;"
+__safe foreign handler _JNI_SettingsSecureGetString(in pContentResolver as JObject, in pName as JString) returns JString \
+    binds to "java:android.provider.Settings$Secure>getString(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;!static"
+
+
+private handler _SettingsSecureGetString() returns String
+   variable tContext as JObject
+   put _JNI_GetEngineContext(_JNI_GetAndroidEngine()) into tContext
+
+   variable tContentResolver as JObject
+   put _JNI_GetContentResolver(tContext) into tContentResolver
+
+   variable tAndroid_ID as JString
+   put _JNI_SettingsSecureGetString(tContentResolver, StringToJString("android_id")) into tAndroid_ID
+
+   return StringFromJString(tAndroid_ID)
+end handler
+
+public handler getSecureAndroidID() returns String
+   variable tAndroid_ID as String
+   put _SettingsSecureGetString() into tAndroid_ID
+   return tAndroid_ID
+end handler
+end library

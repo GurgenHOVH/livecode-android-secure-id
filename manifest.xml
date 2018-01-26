@@ -1,0 +1,10 @@
+<package version="0.0">
+  <name>com.livecode.library.androidsecureid</name>
+  <title>Android Secure ID</title>
+  <author>Gurgen Hovhannisyan</author>
+  <version>0.0.1</version>
+  <license>community</license>
+  <type>library</type>
+  <requires name="com.livecode.java"/>
+  <handler name="getSecureAndroidID" parameters="" return="string"/>
+</package>

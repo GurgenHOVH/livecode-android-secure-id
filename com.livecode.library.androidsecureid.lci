@@ -1,0 +1,4 @@
+import module com.livecode.library.androidsecureid
+  use com.livecode.java
+  handler getSecureAndroidID() returns String
+end module
